@@ -82,7 +82,7 @@ void MyDraw::myDrawKreuzungCover(int (&x)[2], int (&y)[2]) {
 
 
 
-void MyDraw::myDrawZwisch(int num, TColor color = MYROADVERBOTE, int iHorizontale = 1) {
+void MyDraw::myDrawZwisch(int num, int iHorizontale = 1) {
     SetBrush(MYROADVERBOTE);
     if(iHorizontale == 1) {
         Rectangle(0, startY + num * MYLANEWIDTH, startX, MYLANEWIDTH + MYROADLINEWIDTH);

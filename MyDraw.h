@@ -38,7 +38,7 @@ public:
     void myDrawRoadLine(int startX, int startY, int endX, int endY, TColor color);
     void myDrawRoadCoverLine(int startX, int startY, int endX, int endY, TColor color);
     void myDrawKreuzungCover(int (&x)[2], int (&y)[2]);
-    void myDrawZwisch(int num, TColor color, int iHorizontale);
+    void myDrawZwisch(int num, int iHorizontale);
     void myDrawFP();
     void myDrawAuto(int positionX, int positionY, int grad); // grad 0 to up, right 90 down 180 left 270 ...
     // void myDrawRoad0();

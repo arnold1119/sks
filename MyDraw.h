@@ -40,11 +40,11 @@ public:
     void myDrawKreuzungCover(int (&x)[2], int (&y)[2]);
     void myDrawZwisch(int num, int iHorizontale);
     void myDrawFP();
-    void myDrawAuto(int positionX, int positionY, int grad); // grad 0 to up, right 90 down 180 left 270 ...
-    // void myDrawRoad0();
+    
 private:
     int iHLans, iWLans;
     int startX, endX, startY, endY;
+
 };
 
 #endif

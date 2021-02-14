@@ -109,7 +109,3 @@ void MyDraw::myDrawFP() {
 }
 
 
-void MyDraw::myDrawAuto(int positonX, int positionY, int roadNum) {
-    SetBrush(MYROADAUTOCOLOR);
-    SetPen(Klar);
-}

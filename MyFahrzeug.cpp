@@ -161,11 +161,114 @@ MyFahrzeug* MyFahrzeug::createAuto(int width = AUTOW, int height = AUTOH, TColor
 }
 
 void MyFahrzeug::autoMove(void) {
-    this->autoPositionX += this->getSpeed();
-     this->autoPositionY += this->getSpeed();
+    double richtungTMP = 0.0;
+    switch (this->getRoadNum())
+    {
+        case 0:
+            if(this->autoPositionY < FOY) {
+                this->autoRichtung = UP;
+            } else if(this->autoPositionX < FRX ) {
+                richtungTMP = this->getSpeed() / BIEGEN0;
+            } 
+            this->richtungMove();
+            this->autoRichtung += richtungTMP;
+            break;
+        case 2:
+            if(this->autoPositionY > R2BEND) {
+                this->autoRichtung = DOWN;
+            } else if(this->autoPositionX < R2BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN2;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break; 
+        case 5:
+            if(this->autoPositionX < R5BEND) {
+                this->autoRichtung = LEFT;
+            } else if(this->autoPositionY < R5BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN5;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break;
+        case 6:
+            if(this->autoPositionX < R6BEND) {
+                this->autoRichtung = LEFT;
+            } else if(this->autoPositionY < R6BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN6;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break;
+        case 3:
+            if(this->autoPositionX > FRX) {
+                this->autoRichtung = RIGHT;
+            } else if(this->autoPositionY < FUY) {
+                richtungTMP = this->getSpeed() / BIEGEN3;
+            }
+            this->richtungMove();
+            this->autoRichtung += richtungTMP;
+            break;
+        case 7:
+            if(this->autoPositionY > FUY) {
+                this->autoRichtung = DOWN;
+            } else if(this->autoPositionX > FLX) {
+                richtungTMP = this->getSpeed() / BIEGEN7; 
+            }
+            this->richtungMove();
+            this->autoRichtung += richtungTMP;
+            break;
+        case 9:
+            if(this->autoPositionY < R9BEND) {
+                this->autoRichtung = UP;
+            } else if(this->autoPositionX > R9BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN9;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break;
+        case 10:
+            if(this->autoPositionX < FLX) {
+                this->autoRichtung = LEFT;
+            } else if(this->autoPositionY > FOY) {
+                richtungTMP = this->getSpeed() / BIEGEN10;
+            }
+            this->richtungMove();
+            this->autoRichtung += richtungTMP;
+            break;
+        case 12:
+            if(this->autoPositionX > R12BEND) {
+                this->autoRichtung = RIGHT;
+            } else if(this->autoPositionY > R12BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN12;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break;
+        case 13:
+            if(this->autoPositionX > R13BEND) {
+                this->autoRichtung = RIGHT;
+            } else if(this->autoPositionY > R13BSTART)  {
+                richtungTMP = this->getSpeed() / BIEGEN13;
+            }
+            this->richtungMove();
+            this->autoRichtung -= richtungTMP;
+            break;
+        case 1:
+        case 4:
+        case 8:
+        case 11:
+        default: 
+            this->richtungMove();
+            break;
+    }
     myDrawAuto(this->getPositionX(), this->getPositionY(), AUTOW, AUTOH,
                         this->getAutoRichtung(), RAD, LANGE, LANGEKURZ, RADPEN, LANGEPEN, 
                         RADCOLOR, AUTOCOLOR);
+}
+void MyFahrzeug::richtungMove(void) {
+    this->autoPositionX += (sin(this->getAutoRichtung()) * this->getSpeed());
+    this->autoPositionY -= (cos(this->getAutoRichtung()) * this->getSpeed());
 }
 void MyFahrzeug::myDrawAuto(int x, int y, int autoW, int autoL,
                         double richtung, int radL, int lange, int kurz, int radPen,

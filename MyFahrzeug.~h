@@ -19,11 +19,6 @@
 #define SAFESPACE       5 
 #define SPEEDSCHRITT    0.1
 
-#define CREATEAUTOUP    (AUTOH / 2 + SAFESPACE + 20)
-#define CREATEAUTODOWN  (GetMaxH() - AUTOH / 2 - SAFESPACE - 20)
-#define CREATEAUTOLEFT  (AUTOH / 2 + SAFESPACE + 20)
-#define CREATEAUTORIGHT (GetMaxW() - AUTOH / 2 - SAFESPACE - 20)
-
 #define STARTY      ((GetMaxH() - MYLANEWIDTH * 6) / 2 )
 #define ENDY        ((GetMaxH() + MYLANEWIDTH * 6) / 2 )
 #define STARTX      ((GetMaxW() - MYLANEWIDTH * 7) / 2 )
@@ -83,20 +78,18 @@ public:
     void setSpeed(double speed);
     void setSpeed(MyFahrzeug& fs);
     double getSpeed(void);
-    MyFahrzeug& createAuto(int& roadNum, int width, int height, TColor color);
+    void createAuto(int& roadNum, int width, int height, TColor color);
     void setPositon(void);
     double getPositionX(void);
     double getPositionY(void);
     double getAutoRichtung(void);
     void autoMove(void);
-    void autoDraw(void);
     void myDrawAuto(int positionX, int positionY, int autoW, int autoL,
                         double richtung, int radL, int lange, int kurz, int radPen, int langePen, 
                         TColor radColor, TColor autoColor);
     MyFahrzeug(void);
-    MyFahrzeug(const MyFahrzeug& fs);
-    MyFahrzeug& operator=(const MyFahrzeug& other);
-    ~MyFahrzeug(void);
+    MyFahrzeug(const MyFahrzeug& fs)
+    ~MyFahrzeug();
  
 private:
     int autoW, autoH;

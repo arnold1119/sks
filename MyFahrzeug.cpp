@@ -2,22 +2,30 @@
 #include "Plan.h"
 #include <list.h>
 
+MyFahrzeug:: MyFahrzeug(){}
 
-list<MyFahrzeug *> r0;
-list<MyFahrzeug *> r1;
-list<MyFahrzeug *> r2;
-list<MyFahrzeug *> r3;
-list<MyFahrzeug *> r4;
-list<MyFahrzeug *> r5;
-list<MyFahrzeug *> r6;
-list<MyFahrzeug *> r7;
-list<MyFahrzeug *> r8;
-list<MyFahrzeug *> r9;
-list<MyFahrzeug *> r10;
-list<MyFahrzeug *> r11;
-list<MyFahrzeug *> r12;
-list<MyFahrzeug *> r13;
 
+MyFahrzeug:: MyFahrzeug(const MyFahrzeug& fs){
+    this->autoW = fs.autoW;
+    this->autoH = fs.autoH;
+    this->autoPositionX = fs.autoPositionX;
+    this->autoPositionY = fs.autoPositionY;
+    this->roadNum = fs.roadNum;
+    this->autoRichtung = fs.autoRichtung;
+    this->autoSpeed = fs.autoSpeed;
+}
+MyFahrzeug& MyFahrzeug::operator=(const MyFahrzeug& fs) {
+    if(this == &fs)
+        return *this;
+    this->autoW = fs.autoW;
+    this->autoH = fs.autoH;
+    this->autoPositionX = fs.autoPositionX;
+    this->autoPositionY = fs.autoPositionY;
+    this->roadNum = fs.roadNum;
+    this->autoRichtung = fs.autoRichtung;
+    this->autoSpeed = fs.autoSpeed;
+    return *this;
+}
 
 void MyFahrzeug::setAutoWidth(int width) {
     this->autoW = width;
@@ -35,8 +43,8 @@ void MyFahrzeug::setSpeed(double speed) {
     double temp = (1.0 * (random(10) + 1) /10 + random(MAXSPEED));
     this->autoSpeed = temp > speed? speed : temp; 
 }
-void MyFahrzeug::setSpeed(MyFahrzeug* fs) {
-    this->setSpeed(fs->getSpeed());
+void MyFahrzeug::setSpeed(MyFahrzeug& fs) {
+    this->setSpeed(fs.getSpeed());
 }
 double MyFahrzeug::getSpeed(void) {
     return this->autoSpeed; 
@@ -53,85 +61,71 @@ void MyFahrzeug::setPositon(void) {
             this->autoPositionX = GetMaxW();
             this->autoPositionY = STARTY + 1.0 * MYLANEWIDTH / 2; 
             this->autoRichtung = 2.0 * M_PI * 270 / 360;
-            r0.push_front(this);
             break;
         case 1:
             this->autoPositionX = GetMaxW();
             this->autoPositionY = STARTY + 3.0 * MYLANEWIDTH / 2; 
             this->autoRichtung = 2.0 * M_PI * 270 / 360;
-            r1.push_front(this);
             break;
         case 2:
             this->autoPositionX = GetMaxW();
             this->autoPositionY = STARTY + 5.0 * MYLANEWIDTH / 2; 
             this->autoRichtung = 2.0 * M_PI * 270 / 360;
-            r2.push_front(this);
             break;
         case 3:
             this->autoPositionY = GetMaxH();
             this->autoPositionX = ENDX - 1.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * 0.0;
-            r3.push_front(this);
             break;
         case 4:
             this->autoPositionY = GetMaxH();
             this->autoPositionX = ENDX - 3.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * 0.0;
-            r4.push_front(this);
             break;
         case 5:
             this->autoPositionY = GetMaxH();
             this->autoPositionX = ENDX - 5.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * 0.0;
-            r5.push_front(this);
             break;
         case 6:
             this->autoPositionY = GetMaxH();
             this->autoPositionX = ENDX - 7.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * 0.0;
-            r6.push_front(this);
             break;
         case 7:
             this->autoPositionX = 0.0; 
             this->autoPositionY = ENDY - 1.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 90 / 360;
-            r7.push_front(this);
             break;
         case 8:
             this->autoPositionX = 0.0; 
             this->autoPositionY = ENDY - 3.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 90 / 360;
-            r8.push_front(this);
             break;
         case 9:
             this->autoPositionX = 0.0; 
             this->autoPositionY = ENDY - 5.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 90 / 360;
-            r9.push_front(this);
             break;
         case 10:
             this->autoPositionY = 0.0; 
             this->autoPositionX = STARTX + 1.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 180 / 360;
-            r10.push_front(this);
             break;
         case 11:
             this->autoPositionY = 0.0; 
             this->autoPositionX = STARTX + 3.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 180 / 360;
-            r11.push_front(this);
             break;
         case 12:
             this->autoPositionY = 0.0; 
             this->autoPositionX = STARTX + 5.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 180 / 360;
-            r12.push_front(this);
             break;
         case 13:
             this->autoPositionY = 0.0; 
             this->autoPositionX = STARTX + 7.0 * MYLANEWIDTH / 2;
             this->autoRichtung = 2.0 * M_PI * 180 / 360;
-            r13.push_front(this);
             break;
         default:
             break; 
@@ -147,19 +141,23 @@ double MyFahrzeug::getPositionY(void) {
 double MyFahrzeug::getAutoRichtung(void) {
     return this->autoRichtung;
 }
-MyFahrzeug* MyFahrzeug::createAuto(int width = AUTOW, int height = AUTOH, TColor color = AUTOCOLOR) {
+MyFahrzeug& MyFahrzeug::createAuto(int& roadNum, int width = AUTOW, int height = AUTOH, 
+                                TColor color = AUTOCOLOR) {
     this->setRoadNum();
     this->setPositon();
     printf("Road ist %d,\tX ist %f,\tY ist %f,\tRichtung ist %f\n", 
         this->getRoadNum(), this->getPositionX(), this->getPositionY(), this->getAutoRichtung());
     this->setSpeed(MAXSPEED);
+    roadNum = this->getRoadNum();
   
-    myDrawAuto(this->getPositionX(), this->getPositionY(), AUTOW, AUTOH,
-                        this->getAutoRichtung(), RAD, LANGE, LANGEKURZ, RADPEN, LANGEPEN, 
-                        RADCOLOR, AUTOCOLOR);
-    return this;
+   return *this; 
 }
 
+void MyFahrzeug::autoDraw(void) {
+    this->myDrawAuto(this->getPositionX(), this->getPositionY(), AUTOW, AUTOH,
+                        this->getAutoRichtung(), RAD, LANGE, LANGEKURZ, RADPEN, LANGEPEN, 
+                        RADCOLOR, AUTOCOLOR);
+}
 void MyFahrzeug::autoMove(void) {
     double richtungTMP = 0.0;
     switch (this->getRoadNum())
@@ -366,10 +364,15 @@ void MyFahrzeug::myDrawAuto(int x, int y, int autoW, int autoL,
     Poly();
 }
 
+
 int MyFahrzeug::calcRichtungPositionX(int PositionX, int PositonY, int centerX, int centerY, double richtung) {
     return cos(richtung) * (PositionX - centerX) - sin(richtung) * (PositonY - centerY) + centerX;
 }
 
 int MyFahrzeug::calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung) {
     return sin(richtung) * (PositionX - centerX) + cos(richtung) * (PositionY - centerY) + centerY;
+}
+
+MyFahrzeug::~MyFahrzeug() {
+    printf("auto delete\n");
 }

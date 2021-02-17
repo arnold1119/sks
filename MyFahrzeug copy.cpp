@@ -2,8 +2,7 @@
 #include "Plan.h"
 #include <list.h>
 
-MyFahrzeug:: MyFahrzeug(){
-}
+MyFahrzeug:: MyFahrzeug(){}
 
 
 MyFahrzeug:: MyFahrzeug(const MyFahrzeug& fs){
@@ -164,7 +163,6 @@ void MyFahrzeug::autoMove(void) {
     switch (this->getRoadNum())
     {
         case 0:
-        
             if(this->autoPositionY < FOY) {
                 this->autoRichtung = UP;
             } else if(this->autoPositionX < FRX ) {
@@ -262,7 +260,6 @@ void MyFahrzeug::autoMove(void) {
             this->richtungMove();
             break;
     }
-
     myDrawAuto(this->getPositionX(), this->getPositionY(), AUTOW, AUTOH,
                         this->getAutoRichtung(), RAD, LANGE, LANGEKURZ, RADPEN, LANGEPEN, 
                         RADCOLOR, AUTOCOLOR);
@@ -365,7 +362,6 @@ void MyFahrzeug::myDrawAuto(int x, int y, int autoW, int autoL,
     SetPenColor(Klar);
     SetBrushColor(autoColor);
     Poly();
-    
 }
 
 

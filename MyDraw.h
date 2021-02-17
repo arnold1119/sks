@@ -24,6 +24,7 @@
 
 
 #include "Plan.h"
+#include "MyFahrzeug.h"
 /*
     @Function: Draw Road
     @Parameter:
@@ -36,13 +37,14 @@
 class MyDraw : public TPlan{
 public:
     void init();
+    void init(int&, int&);
     void myDrawRoad(int iAllLanes, int (&iStore)[2], int iHorizontale);
     void myDrawRoadLine(int startX, int startY, int endX, int endY, TColor color);
     void myDrawRoadCoverLine(int startX, int startY, int endX, int endY, TColor color);
     void myDrawKreuzungCover(int (&x)[2], int (&y)[2]);
-    void myDrawZwisch(int num, int iHorizontale);
     void myDrawFP();
-    
+    void myDrawZwisch(int num, int iHorizontale);
+   
 private:
     int iHLans, iWLans;
     int startX, endX, startY, endY;

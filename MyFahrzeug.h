@@ -15,42 +15,14 @@
 #define RAD             6
 #define LANGE           (AUTOW + 4) 
 #define ROADS           14
-#define MAXSPEED        5
+#define MAXSPEED        4.5
 #define SAFESPACE       5 
 #define SPEEDSCHRITT    0.1
 
+
 #define CREATEAUTOUP    (AUTOH / 2 + SAFESPACE + 20)
-#define CREATEAUTODOWN  (GetMaxH() - AUTOH / 2 - SAFESPACE - 20)
 #define CREATEAUTOLEFT  (AUTOH / 2 + SAFESPACE + 20)
-#define CREATEAUTORIGHT (GetMaxW() - AUTOH / 2 - SAFESPACE - 20)
 
-#define STARTY      ((GetMaxH() - MYLANEWIDTH * 6) / 2 )
-#define ENDY        ((GetMaxH() + MYLANEWIDTH * 6) / 2 )
-#define STARTX      ((GetMaxW() - MYLANEWIDTH * 7) / 2 )
-#define ENDX        ((GetMaxW() + MYLANEWIDTH * 7) / 2 )
-
-#define FLX         (STARTX - LEERwIDTH)
-#define FRX         (ENDX + LEERwIDTH)
-#define FOY         (STARTY - LEERwIDTH)
-#define FUY         (ENDY + LEERwIDTH)
-
-#define R2BSTART   (ENDX - 2 * MYLANEWIDTH)
-#define R2BEND     (ENDY)
-
-#define R5BSTART   (ENDY - MYLANEWIDTH)
-#define R5BEND     (STARTX) 
-
-#define R6BSTART   (ENDY - MYLANEWIDTH)
-#define R6BEND     (STARTX) 
-
-#define R9BSTART   (STARTX + 2 * MYLANEWIDTH)
-#define R9BEND    (STARTY)
-
-#define R12BSTART   (STARTY + MYLANEWIDTH)
-#define R12BEND    (ENDX)
-
-#define R13BSTART   (STARTY + MYLANEWIDTH)
-#define R13BEND    (ENDX)
 
 #define BIEGEN0     (1.0 * MYROADRADIO + MYLANEWIDTH / 2)
 #define BIEGEN3     (1.0 * MYROADRADIO + MYLANEWIDTH / 2)
@@ -69,11 +41,14 @@
 #define LEFT        (2.0 * M_PI * 270 / 360)
 #define RIGHT       (2.0 * M_PI * 90 / 360)
 
-
-class MyFahrzeug : public TPlan{
+class MyFahrzeug{
 
 public:
-
+    MyFahrzeug(void);
+    init(double x, double y);
+    MyFahrzeug(const MyFahrzeug& fs);
+    MyFahrzeug& operator=(const MyFahrzeug& other);
+    ~MyFahrzeug(void);
     void setAutoWidth(int);
     int  getAutoWidth(void);
     void setAutoHeight(int);
@@ -81,32 +56,49 @@ public:
     int setRoadNum(void);
     int getRoadNum(void);
     void setSpeed(double speed);
-    void setSpeed(MyFahrzeug& fs);
+    void setMaxSpeed(MyFahrzeug& fs);
     double getSpeed(void);
     MyFahrzeug& createAuto(int& roadNum, int width, int height, TColor color);
     void setPositon(void);
     double getPositionX(void);
     double getPositionY(void);
     double getAutoRichtung(void);
-    void autoMove(void);
+    MyFahrzeug& autoMove(void);
     void autoDraw(void);
-    void myDrawAuto(int positionX, int positionY, int autoW, int autoL,
-                        double richtung, int radL, int lange, int kurz, int radPen, int langePen, 
-                        TColor radColor, TColor autoColor);
-    MyFahrzeug(void);
-    MyFahrzeug(const MyFahrzeug& fs);
-    MyFahrzeug& operator=(const MyFahrzeug& other);
-    ~MyFahrzeug(void);
+    double getW(void);
+    double getH(void);
  
 private:
+    double w, h;
     int autoW, autoH;
     double autoPositionX, autoPositionY;
     int roadNum;
     //0 fur ^  90 fur > 180 fur unter 270 fur <
     double autoRichtung, autoSpeed;
-    int calcRichtungPositionX(int PositionX, int PositionY, int centerX, int centerY, double richtung);
-    int calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung);
     void richtungMove(void);
+
+    int CREATEAUTODOWN; 
+    int CREATEAUTORIGHT;
+    int STARTY;
+    int ENDY  ;
+    int STARTX;
+    int ENDX  ;
+    int FLX ;
+    int FRX;
+    int FOY ;
+    int FUY;
+    int R2BSTART; 
+    int R2BEND  ;
+    int R5BSTART ;
+    int R5BEND  ;
+    int R6BSTART ;
+    int R6BEND  ;
+    int R9BSTART ;
+    int R9BEND  ;
+    int R12BSTART;
+    int R12BEND ;
+    int R13BSTART;
+    int R13BEND ;
 };
 
 #endif

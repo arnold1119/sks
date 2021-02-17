@@ -1,13 +1,19 @@
 #include "MyDraw.h"
+#include "MyFahrzeug.h"
 #include "Plan.h"
 
+void MyDraw::init(int& w, int& h) {
+    SetPen(Klar);
+    SetBrush(MYROADCOLOR);
+    w = GetMaxW();
+    h = GetMaxH();
+    Rectangle(0, 0, GetMaxW(), GetMaxH());
+}
 void MyDraw::init() {
     SetPen(Klar);
     SetBrush(MYROADCOLOR);
-    // SetBrush(Gelb);
     Rectangle(0, 0, GetMaxW(), GetMaxH());
 }
-
 
 void MyDraw::myDrawRoad(int iAllLanes, int (&iStore)[2], int iHorizontale = 1) {
         int iLans = iAllLanes + 1;
@@ -107,5 +113,3 @@ void MyDraw::myDrawFP() {
     Rectangle(endX + LEERwIDTH, startY, FWIDTH, iHLans * MYLANEWIDTH); //rightF
     Rectangle(startX, endY + LEERwIDTH, iWLans * MYLANEWIDTH, FWIDTH); //downF
 }
-
-

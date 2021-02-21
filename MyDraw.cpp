@@ -67,9 +67,10 @@ void MyDraw::myDrawRoadCoverLine(int startX, int startY, int endX, int endY, TCo
     }
 }
 
+
 void MyDraw::myDrawKreuzungCover(int (&x)[2], int (&y)[2]) {
     SetBrush(MYROADCOLOR);
-    Rectangle(x[0], y[0], x[1] - x[0], y[1] - y[0]);    
+    Rectangle(x[0] - LEERwIDTH, y[0] - LEERwIDTH, x[1] - x[0] + 2 * LEERwIDTH, y[1] - y[0] + 2 * LEERwIDTH);    
     SetBrush(GEBAUDE);
     SetPen(Klar);
     Circle(startX - LEERwIDTH, startY - LEERwIDTH, LEERwIDTH); //leftup
@@ -112,4 +113,25 @@ void MyDraw::myDrawFP() {
     Rectangle(startX, startY - LEERwIDTH -FWIDTH, iWLans * MYLANEWIDTH, FWIDTH); //upF
     Rectangle(endX + LEERwIDTH, startY, FWIDTH, iHLans * MYLANEWIDTH); //rightF
     Rectangle(startX, endY + LEERwIDTH, iWLans * MYLANEWIDTH, FWIDTH); //downF
+}
+    
+    
+void MyDraw::myDrawLampeStop() {
+    SetPen(Schwarz, 1);
+    SetBrush(LAMPERED);
+    Circle(LAMPELX, LAMPELLY, LAMPERADIO); //9
+    Circle(LAMPELX, LAMPELGY, LAMPERADIO); //8
+    Circle(LAMPELX, LAMPELRY, LAMPERADIO); //7
+
+    Circle(LAMPERX, LAMPERRY, LAMPERADIO); //0
+    Circle(LAMPERX, LAMPERGY, LAMPERADIO); //1
+    Circle(LAMPERX, LAMPERLY, LAMPERADIO); //2
+
+    Circle(LAMPEORX, LAMPEOY, LAMPERADIO); //10
+    Circle(LAMPEOGX, LAMPEOY, LAMPERADIO); //11
+    Circle(LAMPEOLX, LAMPEOY, LAMPERADIO); //12 13
+    
+    Circle(LAMPEULX, LAMPEUY, LAMPERADIO); //5 6
+    Circle(LAMPEUGX, LAMPEUY, LAMPERADIO); //4
+    Circle(LAMPEURX, LAMPEUY, LAMPERADIO); //3
 }

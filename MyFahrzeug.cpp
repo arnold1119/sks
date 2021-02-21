@@ -28,7 +28,6 @@ MyFahrzeug:: init(double x, double y){
     R12BEND = (ENDX);
     R13BSTART = (STARTY + MYLANEWIDTH);
     R13BEND = (ENDX);
-    printf("Road ist %f,%f\n", w, h);
 }
 
 double MyFahrzeug::getW(void) {
@@ -124,24 +123,84 @@ int MyFahrzeug::getAutoHeight(void) {
 }
 
 void MyFahrzeug::setSpeed(double speed) {
+    
     if(speed >= MAXSPEED) {
         this->autoSpeed = MAXSPEED;
     } else {
         this->autoSpeed = speed;
     }
+    if(speed == MAXSPEED + 2.5) {
+        this->autoSpeed = speed;
+    }
 }
+// void MyFahrzeug::setSpeed(double speed, int roadNum, int stopPosition) {
+// }
 
 void MyFahrzeug::setMaxSpeed(MyFahrzeug& fs) {
     double dis = (fs.getPositionX() - this->autoPositionX) * (fs.getPositionX() - this->autoPositionX)
                   + (fs.getPositionY() - this->autoPositionY) * (fs.getPositionY() - this->autoPositionY);
-    printf("dis -------------------speed ist %f\n", dis);
+    // printf("dis -------------------speed ist %f\n", dis);
     dis = sqrt(dis) - SAFESPACE - AUTOH;
     if(dis < 0) {
         setSpeed(0);
         return;
     }
-    printf("sqrt  dis -------------------speed ist %f\n", dis);
+    // printf("sqrt  dis -------------------speed ist %f\n", dis);
     setSpeed(dis);
+}
+void MyFahrzeug::setMaxSpeed(MyFahrzeug& fs, int roadNum, int stopPosition) {
+    double dis = 0.0;
+    switch (roadNum)
+    {
+    case 0:
+    case 1:
+    case 2:
+        dis = fs.getPositionX() - stopPosition - 2 * SAFESPACE;
+        if (dis < 0)
+        {
+            setSpeed(0);
+            return;
+        }
+        setSpeed(dis);
+        break;
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+        dis = fs.getPositionY() - stopPosition - 2 * SAFESPACE;
+        if (dis < 0)
+        {
+            setSpeed(0);
+            return;
+        }
+        setSpeed(dis);
+        break;
+    case 7:
+    case 8:
+    case 9:
+        dis = stopPosition - fs.getPositionX() - 2 * SAFESPACE;
+        if (dis < 0)
+        {
+            setSpeed(0);
+            return;
+        }
+        setSpeed(dis);
+        break;
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+        dis = stopPosition - fs.getPositionY() - 2 * SAFESPACE;
+        if (dis < 0)
+        {
+            setSpeed(0);
+            return;
+        }
+        setSpeed(dis);
+        break;
+    default:
+        break;
+    }
 }
 
 double MyFahrzeug::getSpeed(void) {
@@ -243,9 +302,6 @@ MyFahrzeug& MyFahrzeug::createAuto(int& roadNum, int width = AUTOW, int height =
                                 TColor color = AUTOCOLOR) {
     this->setRoadNum();
     this->setPositon();
-    printf("Road ist %d,\tX ist %f,\tY ist %f,\tRichtung ist %f\n", 
-        this->getRoadNum(), this->getPositionX(), this->getPositionY(), this->getAutoRichtung());
-    // this->setSpeed(random(4) + 1);
     roadNum = this->getRoadNum(); 
    return *this; 
 }
@@ -364,5 +420,5 @@ void MyFahrzeug::richtungMove(void) {
 
 
 MyFahrzeug::~MyFahrzeug() {
-    printf("auto delete\n");
+    // printf("auto delete\n");
 }

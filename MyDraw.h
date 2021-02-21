@@ -8,7 +8,7 @@
 #define MYROADLINEWIDTH     2  
 #define CONTROLWIDTH        200
 #define MYROADRADIO         50
-#define MYROADVERBOTE       Hellrot
+#define MYROADVERBOTE       Hellgruen
 
 #define MYROADAUTOCOLOR     Gelb
 #define MYROADAUTOBREIT     20
@@ -21,7 +21,44 @@
 #define FCOLOR              Schwarz 
 #define PCOLOR              Hellgrau
 
+#define LAMPERED    Hellrot 
+#define LAMPEYELLOW Gelb 
+#define LAMOEGREEN  Green 
 
+#define MYDRAWSTARTY  ((GetMaxH() - MYLANEWIDTH * 6) / 2)
+#define MYDRAWENDY    ((GetMaxH() + MYLANEWIDTH * 6) / 2) 
+#define MYDRAWSTARTX  ((GetMaxW() - MYLANEWIDTH * 7) / 2)
+#define MYDRAWENDX    ((GetMaxW() + MYLANEWIDTH * 7) / 2)
+
+#define MYDRAWFLX  (STARTX - LEERwIDTH)
+#define MYDRAWFRX  (ENDX + LEERwIDTH)
+#define MYDRAWFOY  (STARTY - LEERwIDTH)
+#define MYDRAWFUY  (ENDY + LEERwIDTH)
+
+#define LAMPERADIO  20
+#define ABSTAND     50
+
+#define LAMPEOLX     (MYDRAWSTARTX - ABSTAND)
+#define LAMPEOGX     (MYDRAWSTARTX - 2 * ABSTAND)
+#define LAMPEORX     (MYDRAWSTARTX - 3 * ABSTAND)
+#define LAMPEOY      (MYDRAWSTARTY - ABSTAND)   
+
+#define LAMPEULX    (MYDRAWENDX + ABSTAND)
+#define LAMPEUGX    (MYDRAWENDX + 2 * ABSTAND)
+#define LAMPEURX    (MYDRAWENDX + 3 * ABSTAND)
+#define LAMPEUY     (MYDRAWENDY + ABSTAND)   
+
+#define LAMPELLY    (MYDRAWENDY + ABSTAND)
+#define LAMPELGY    (MYDRAWENDY + 2 * ABSTAND)
+#define LAMPELRY    (MYDRAWENDY + 3 * ABSTAND)
+#define LAMPELX     (MYDRAWSTARTX - ABSTAND)
+
+
+
+#define LAMPERLY    (MYDRAWSTARTY- ABSTAND)
+#define LAMPERGY    (MYDRAWSTARTY - 2 * ABSTAND)
+#define LAMPERRY    (MYDRAWSTARTY - 3 * ABSTAND)
+#define LAMPERX     (MYDRAWENDX+ ABSTAND)
 
 #include "Plan.h"
 #include "MyFahrzeug.h"
@@ -44,6 +81,8 @@ public:
     void myDrawKreuzungCover(int (&x)[2], int (&y)[2]);
     void myDrawFP();
     void myDrawZwisch(int num, int iHorizontale);
+    void myDrawLampeStop(); 
+
    
 private:
     int iHLans, iWLans;

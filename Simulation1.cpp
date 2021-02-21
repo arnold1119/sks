@@ -14,8 +14,50 @@
 #include "MyFahrzeug.h"
  
 
-#define CREATEAUTODOWN  (GetMaxH() - AUTOH / 2 - SAFESPACE - 20)
-#define CREATEAUTORIGHT  (GetMaxW() - AUTOH / 2 - SAFESPACE - 20)
+#define CREATEAUTODOWN      (GetMaxH() - AUTOH / 2 - SAFESPACE - 20)
+#define CREATEAUTORIGHT     (GetMaxW() - AUTOH / 2 - SAFESPACE - 20)
+#define COUNTNUM        120
+#define GELBCOUNTNUM    10
+#define NOLAUF          35
+#define REGELNUM        6
+
+#define REGEL0  0
+#define REGEL1  1
+#define REGEL2  2
+#define REGEL3  3
+#define REGEL4  4
+#define REGEL5  5
+#define REGEL6  6
+
+#define LAUFSTOP    1
+#define LAUFRUN     2
+#define LAUFSLOW    3
+#define FWIDTH              25
+#define PWIDTH              55
+#define FCOLOR              Schwarz 
+#define PCOLOR              Hellgrau
+
+#define LAMPERED    Hellrot 
+#define LAMPEGELB Gelb 
+#define LAMPEGREEN  Gruen 
+
+#define MYDRAWSTARTY  ((GetMaxH() - MYLANEWIDTH * 6) / 2)
+#define MYDRAWENDY    ((GetMaxH() + MYLANEWIDTH * 6) / 2) 
+#define MYDRAWSTARTX  ((GetMaxW() - MYLANEWIDTH * 7) / 2)
+#define MYDRAWENDX    ((GetMaxW() + MYLANEWIDTH * 7) / 2)
+
+#define MYDRAWFLX  (STARTX - LEERwIDTH)
+#define MYDRAWFRX  (ENDX + LEERwIDTH)
+#define MYDRAWFOY  (STARTY - LEERwIDTH)
+#define MYDRAWFUY  (ENDY + LEERwIDTH)
+
+#define STOPUP      (MYDRAWSTARTY - LEERwIDTH - FWIDTH - PWIDTH - AUTOH / 2)
+#define STOPDOWN    (MYDRAWENDY + LEERwIDTH + FWIDTH + PWIDTH + AUTOH / 2)
+#define STOPLEFT    (MYDRAWSTARTX - LEERwIDTH - FWIDTH - PWIDTH - AUTOH / 2)
+#define STOPRIGHT   (MYDRAWENDX + LEERwIDTH + FWIDTH + PWIDTH + AUTOW / 2)
+
+#define SPEEDSLOW   0.5
+
 
 class TUser : public TPlan {
     public:
@@ -24,15 +66,20 @@ class TUser : public TPlan {
         void Run(void);
         void Reset(void);
         void createCall(void);
-        void showVec(std::vector<MyFahrzeug>& lr);
+        void showVec(std::vector<MyFahrzeug>& lr, int roadNum, int laufStatus);
         void showFs(int x, int y, double richtung);
         void myDrawAutoPublic(int x, int y, double richtung);
         void myDrawAutoPrivate(int positionX, int positionY, double richtung, int autoW, int autoL,
                                int radL, int lange, int kurz, int radPen, int langePen,
                                TColor radColor, TColor autoColor);
+
+        void lampeLauf();
+        void regelLauf(int regelNum, int callRunNum, int status);
         int calcRichtungPositionX(int PositionX, int PositionY, int centerX, int centerY, double richtung);
         int calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung);
 };
+
+
 std::vector<MyFahrzeug> vfs0;
 std::vector<MyFahrzeug> vfs1;
 std::vector<MyFahrzeug> vfs2;
@@ -55,8 +102,10 @@ MyFahrzeug ss;
 
 
 int roadNum = 0;
-int createNum = 3;
+int createNum = 2;
 int W = 0, H = 0;
+
+int tempCallNum = 0;
 
 void TUser::Init(void) {
     vfs0.clear();
@@ -85,10 +134,8 @@ void TUser::Init(void) {
     myDraw.myDrawZwisch(2, 1);
     myDraw.myDrawZwisch(4, 0);
     myDraw.myDrawFP();
+    myDraw.myDrawLampeStop();
     createCall();
-    printf("x is %f, y ist %f, w ist %f, h ist %f, richtung ist %f\n",
-           ss.getPositionX(), ss.getPositionY(), ss.getAutoWidth(), ss.getAutoHeight(),
-        ss.getAutoRichtung() );
 }
 
 void TUser::Run(void) {
@@ -100,23 +147,10 @@ void TUser::Run(void) {
     myDraw.myDrawZwisch(2, 1);
     myDraw.myDrawZwisch(4, 0);
     myDraw.myDrawFP();
-
+    lampeLauf();
     createCall();
-    showVec(vfs0);
-    showVec(vfs1);
-    showVec(vfs2);
-    showVec(vfs3);
-    showVec(vfs4);
-    showVec(vfs5);
-    showVec(vfs6);
-    showVec(vfs7);
-    showVec(vfs8);
-    showVec(vfs9);
-    showVec(vfs10);
-    showVec(vfs11);
-    showVec(vfs12);
-    showVec(vfs13);
 
+    
     
     CallRun = true; 
 }
@@ -124,6 +158,195 @@ void TUser::Run(void) {
 void TUser::Reset(void) {
     TUser::Init(); 
 }
+
+
+void TUser::regelLauf(int regelNum, int callRunNum, int status) {
+    TColor color = (status == LAUFRUN)? LAMPEGREEN : LAMPEGELB;
+    myDraw.myDrawLampeStop();
+    
+    switch(regelNum) {
+        case REGEL0:
+// std::cout<<"status\t"<<status<<std::endl;
+            showVec(vfs1, 1, status);
+            showVec(vfs8, 8, status);
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPERX, LAMPERGY, LAMPERADIO); //1
+            Circle(LAMPELX, LAMPELGY, LAMPERADIO); //8
+        break;
+        case REGEL1:
+    
+            showVec(vfs2, 2, status);
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPERX, LAMPERLY, LAMPERADIO); //2
+        break;
+        case REGEL2:
+            showVec(vfs3, 3, status);
+            showVec(vfs4, 4, status);
+            showVec(vfs10, 10, status);
+            showVec(vfs11, 11, status);
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPEURX, LAMPEUY, LAMPERADIO); //3
+            Circle(LAMPEUGX, LAMPEUY, LAMPERADIO); //4
+            Circle(LAMPEORX, LAMPEOY, LAMPERADIO); //10
+            Circle(LAMPEOGX, LAMPEOY, LAMPERADIO); //11
+        break;
+        case REGEL3:
+            showVec(vfs5, 5, status);
+            showVec(vfs6, 6, status);
+            showVec(vfs7, 7, status);
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPEULX, LAMPEUY, LAMPERADIO); //5 6
+            Circle(LAMPELX, LAMPELRY, LAMPERADIO); //7 
+        break;
+        case REGEL4:
+            showVec(vfs9, 9, status);
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPELX, LAMPELLY, LAMPERADIO); //9
+        break;
+        case REGEL5:
+    showVec(vfs1, 1, LAUFSTOP);
+            showVec(vfs0, 0, status);
+            showVec(vfs12, 12, status);
+            showVec(vfs13, 13, status);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    SetBrush(color);
+            Circle(LAMPERX, LAMPERRY, LAMPERADIO); //0
+            Circle(LAMPEOLX, LAMPEOY, LAMPERADIO); //12 13
+        break;
+    default:
+    showVec(vfs0, 0, LAUFSTOP);
+    showVec(vfs1, 1, LAUFSTOP);
+    showVec(vfs2, 2, LAUFSTOP);
+    showVec(vfs3, 3, LAUFSTOP);
+    showVec(vfs4, 4, LAUFSTOP);
+    showVec(vfs5, 5, LAUFSTOP);
+    showVec(vfs6, 6, LAUFSTOP);
+    showVec(vfs7, 7, LAUFSTOP);
+    showVec(vfs8, 8, LAUFSTOP);
+    showVec(vfs9, 9, LAUFSTOP);
+    showVec(vfs10, 10, LAUFSTOP);
+    showVec(vfs11, 11, LAUFSTOP);
+    showVec(vfs12, 12, LAUFSTOP);
+    showVec(vfs13, 13, LAUFSTOP);
+        break;
+    }
+}
+
+void TUser::lampeLauf() {
+    int temp = CallRunCount % (COUNTNUM * REGELNUM);
+ 
+    if(0 <= temp && temp < COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL0, CallRunCount, LAUFRUN);
+    }
+    else if(COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < COUNTNUM - NOLAUF) {
+        regelLauf(REGEL0, CallRunCount, LAUFSLOW);
+    } 
+    
+    else if(1 * COUNTNUM <= temp && temp < 2 * COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL1, CallRunCount, LAUFRUN);
+    }
+    else if(2 * COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < 2 * COUNTNUM - NOLAUF) {
+        regelLauf(REGEL1, CallRunCount, LAUFSLOW);
+    } 
+
+    else if(2 * COUNTNUM <= temp && temp < 3 * COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL2, CallRunCount, LAUFRUN);
+    }
+    else if(3 * COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < 3 * COUNTNUM - NOLAUF) {
+        regelLauf(REGEL2, CallRunCount, LAUFSLOW);
+    } 
+
+    else if(3 * COUNTNUM <= temp && temp < 4 * COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL3, CallRunCount, LAUFRUN);
+    }
+    else if(4 * COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < 4 * COUNTNUM - NOLAUF) {
+        regelLauf(REGEL3, CallRunCount, LAUFSLOW);
+    } 
+
+    else if(4 * COUNTNUM <= temp && temp < 5 * COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL4, CallRunCount, LAUFRUN);
+    }
+    else if(5 * COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < 5 * COUNTNUM - NOLAUF) {
+        regelLauf(REGEL4, CallRunCount, LAUFSLOW);
+    } else if(5 * COUNTNUM <= temp && temp < 6 * COUNTNUM - GELBCOUNTNUM - NOLAUF) {
+        regelLauf(REGEL5, CallRunCount, LAUFRUN);
+    }
+    else if(6 * COUNTNUM - GELBCOUNTNUM - NOLAUF <= temp && temp < 6 * COUNTNUM - NOLAUF) {
+        regelLauf(REGEL5, CallRunCount, LAUFSLOW);
+    } 
+    else {regelLauf(REGEL6, CallRunCount, LAUFSTOP);}
+}
+
+
 
 void TUser::myDrawAutoPublic(int x, int y, double richtung) {
     this->myDrawAutoPrivate(x, y, richtung, AUTOW, AUTOH, RAD, 
@@ -238,30 +461,174 @@ int TUser::calcRichtungPositionX(int PositionX, int PositonY, int centerX, int c
 int TUser::calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung) {
     return sin(richtung) * (PositionX - centerX) + cos(richtung) * (PositionY - centerY) + centerY;
 }
+
 void TUser::showFs(int x, int y, double richtung) {
     myDrawAutoPublic(x, y, richtung);
 }
 
-void TUser::showVec(std::vector<MyFahrzeug>& lr) {
-    std::cout<<"----------------------vfs0 size ist "<<lr.size()<<std::endl;
+void TUser::showVec(std::vector<MyFahrzeug>& lr, int roadNum, int laufStatus) {
+    // std::cout<<"----------------------vfs0 size ist "<<lr.size()<<std::endl;
     MyFahrzeug* vor;
-    for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
+    if(lr.size()> 20) {
+        lr.erase(lr.begin());
+    }
+    int flag = 0;
+    if(LAUFSTOP == laufStatus) {
+        switch (roadNum)
+        {
+        case 0:
+        case 1:
+        case 2: 
+            for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
+                if (iter->getPositionX() > STOPRIGHT)
+                {
+                    if(!flag) {
+                        iter->setMaxSpeed(*iter, roadNum, STOPRIGHT);
+                        if(iter->getSpeed() == 0) {
+                            flag = 1;
+                        }
+                    } else {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+                else
+                {
+                    if (iter == vor)
+                    {
+                        iter->setSpeed(MAXSPEED);
+                    }
+                    else
+                    {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+
+                (iter)->autoMove();
+                showFs(iter->getPositionX(), iter->getPositionY(), iter->getAutoRichtung());
+                vor = iter;
+
+            }
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
+                if (iter->getPositionY() > STOPDOWN)
+                {
+                    if(!flag) {
+                        iter->setMaxSpeed(*iter, roadNum, STOPDOWN);
+                        if(iter->getSpeed() == 0) {
+                            flag = 1;
+                        }
+                    } else {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+                else
+                {
+                    if (iter == vor)
+                    {
+                        iter->setSpeed(MAXSPEED);
+                    }
+                    else
+                    {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+
+                (iter)->autoMove();
+                showFs(iter->getPositionX(), iter->getPositionY(), iter->getAutoRichtung());
+                vor = iter;
+
+            }
+            break;
+        case 7:
+        case 8:
+        case 9:
+            for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
+                if (iter->getPositionX() < STOPLEFT)
+                {
+                    if(!flag) {
+                        iter->setMaxSpeed(*iter, roadNum, STOPLEFT);
+                        if(iter->getSpeed() == 0) {
+                            flag = 1;
+                        }
+                    } else {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+                else
+                {
+                    if (iter == vor)
+                    {
+                        iter->setSpeed(MAXSPEED);
+                    }
+                    else
+                    {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+
+                (iter)->autoMove();
+                showFs(iter->getPositionX(), iter->getPositionY(), iter->getAutoRichtung());
+                vor = iter;
+
+            }
+            break;
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+            for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
+                if (iter->getPositionY() < STOPUP)
+                {
+                    if(!flag) {
+                        iter->setMaxSpeed(*iter, roadNum, STOPUP);
+                        if(iter->getSpeed() == 0) {
+                            flag = 1;
+                        }
+                    } else {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+                else
+                {
+                    if (iter == vor)
+                    {
+                        iter->setSpeed(MAXSPEED);
+                    }
+                    else
+                    {
+                        iter->setMaxSpeed(*vor);
+                    }
+                }
+
+                (iter)->autoMove();
+                showFs(iter->getPositionX(), iter->getPositionY(), iter->getAutoRichtung());
+                vor = iter;
+
+            }
+            break;
+        default:
+            break;
+        } 
+    } else {
+        for (std::vector<MyFahrzeug>::iterator iter = lr.begin(), vor = lr.begin(); iter != lr.end(); iter++) {
             if(iter == vor) {
-                iter->setSpeed(MAXSPEED);
+                iter->setSpeed(MAXSPEED + ((laufStatus == LAUFRUN)? 0 :SPEEDSLOW));
             } else {
                 iter->setMaxSpeed(*vor);
             }
             (iter)->autoMove();
             showFs(iter->getPositionX(), iter->getPositionY(), iter->getAutoRichtung());
             vor = iter;
-        // std::cout<<"vfs0 x ist "<<(*iter).getPositionX()<<std::endl;
-        // std::cout<<"vfs0 y ist "<<(*iter).getPositionY()<<std::endl;
-        // std::cout<<"vfs0 speed ist "<<(*iter).getSpeed()<<std::endl;
+        }
     }
 }
 
 void TUser::createCall(void) {
-    
+    if(random(50) > 2) return;
     for(int startI = 0; startI < createNum; startI++) {
         ss.createAuto(roadNum, AUTOW, AUTOH, AUTOCOLOR);
         switch(roadNum) {
@@ -271,7 +638,6 @@ void TUser::createCall(void) {
                         break;
                     }
                 } 
-                // ss.setSpeed(MAXSPEED);
                 vfs0.push_back(ss);
                 break;
             case 1:

@@ -57,6 +57,7 @@ public:
     int getRoadNum(void);
     void setSpeed(double speed);
     void setMaxSpeed(MyFahrzeug& fs);
+    void setMaxSpeed(MyFahrzeug& fs, int roadNum, int stopPosition);
     double getSpeed(void);
     MyFahrzeug& createAuto(int& roadNum, int width, int height, TColor color);
     void setPositon(void);

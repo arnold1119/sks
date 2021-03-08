@@ -40,6 +40,7 @@ void MyDraw::myDrawRoad(int iAllLanes, int (&iStore)[2], int iHorizontale = 1) {
                                     iStore[0] + MYLANEWIDTH * i, GetMaxH(), MYROADCOVERCOLOR);
             }
         }
+   
 }
 
 void MyDraw::myDrawRoadLine(int startX, int startY, int endX, int endY, TColor color = MYROADLINECOLOR) {
@@ -250,7 +251,6 @@ int h = ABLENGHT, int w = ABWIDTH, TColor color = ABFARBE) {
         eckmy = y - h / 2 + w / 2;
     }
 
-    printf("jiangnan\n");
     int calEckmx = this->calcRichtungPositionX(eckmx, eckmy, x, y, roadRichtung);
     int calEckmy = this->calcRichtungPositionY(eckmx, eckmy, x, y, roadRichtung);
 
@@ -327,11 +327,195 @@ int h = ABLENGHT, int w = ABWIDTH, TColor color = ABFARBE) {
     Poly();
 
 }
-
 int MyDraw::calcRichtungPositionX(int PositionX, int PositonY, int centerX, int centerY, double richtung) {
     return cos(richtung) * (PositionX - centerX) - sin(richtung) * (PositonY - centerY) + centerX;
 }
 
 int MyDraw::calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung) {
     return sin(richtung) * (PositionX - centerX) + cos(richtung) * (PositionY - centerY) + centerY;
+}
+
+void MyDraw::myDrawHelpLine(void) {
+    // 1 8
+    myDrawHelpLine18(HELPLINEWEISS);
+    // 2
+    myDrawHelpLine2(HELPLINEWEISS);
+    // 3 4 10 11
+    myDrawHelpLine341011(HELPLINEWEISS);
+    // 5 6 7
+    myDrawHelpLine567(HELPLINEWEISS);
+    // 9
+    myDrawHelpLine9(HELPLINEWEISS);
+    // 0 12 13
+    myDrawHelpLine01213(HELPLINEWEISS);
+    return;
+}
+
+void MyDraw::myDrawHelpLine18(TColor color = HELPLINEWEISS) {
+    int cout, end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE1OFROMX, HELPLINE1OFROMY);
+    for(cout = 0, end = HELPLINE1OFROMX; end > HELPLINE1OTOX; cout++) {
+        end -= HELPLINELENGTH;
+        LineTo(end, HELPLINE1OFROMY);
+        end -= HELPLINESKIP;
+        MoveTo(end, HELPLINE1OFROMY);
+    }
+    MoveTo(HELPLINE1UFROMX, HELPLINE1UFROMY);
+    for(cout = 0, end = HELPLINE1UFROMX; end > HELPLINE1UTOX; cout++) {
+        end -= HELPLINELENGTH;
+        LineTo(end, HELPLINE1UFROMY);
+        end -= HELPLINESKIP;
+        MoveTo(end, HELPLINE1UFROMY);
+    }
+
+    MoveTo(HELPLINE8OFROMX, HELPLINE8OFROMY);
+    for(cout = 0, end = HELPLINE8OFROMX; end < HELPLINE8OTOX; cout++) {
+        end += HELPLINELENGTH;
+        LineTo(end, HELPLINE8OFROMY);
+        end += HELPLINESKIP;
+        MoveTo(end, HELPLINE8OFROMY);
+    }
+    MoveTo(HELPLINE8UFROMX, HELPLINE8UFROMY);
+    for(cout = 0, end = HELPLINE8UFROMX; end < HELPLINE8UTOX; cout++) {
+        end += HELPLINELENGTH;
+        LineTo(end, HELPLINE8UFROMY);
+        end += HELPLINESKIP;
+        MoveTo(end, HELPLINE8UFROMY);
+    }
+    return;
+}
+void MyDraw::myDrawHelpLine2(TColor color = HELPLINEWEISS) {
+    int end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE2UFROMX, HELPLINE2UFROMY);
+    for(end = HELPLINE2UFROMX; end > HELPLINE2UTOX; ) {
+        end -= HELPLINELENGTH;
+        LineTo(end, HELPLINE2UFROMY);
+        end -= HELPLINESKIP;
+        MoveTo(end, HELPLINE2UFROMY);
+    }
+    for(end = HELPLINE2STARTGRAD; end < HELPLINE2ENDGRAD; ) {
+        Arc(HELPLINE2PX, HELPLINE2PY, end, end + HELPLINELENGTH, RAD2IN);
+        Arc(HELPLINE2PX, HELPLINE2PY, end, end + HELPLINELENGTH, RAD2OUT);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }
+
+}
+void MyDraw::myDrawHelpLine341011(TColor color = HELPLINEWEISS) {
+    int cout, end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE4RFROMX, HELPLINE4RFROMY);
+    for(cout = 0, end = HELPLINE4RFROMY; end > HELPLINE4RTOY; cout++) {
+        end -= HELPLINELENGTH;
+        LineTo(HELPLINE4RFROMX, end);
+        end -= HELPLINESKIP;
+        MoveTo(HELPLINE4RFROMX, end);
+    }
+    MoveTo(HELPLINE4LFROMX, HELPLINE4LFROMY);
+    for(cout = 0, end = HELPLINE4LFROMY; end > HELPLINE4LTOY; cout++) {
+        end -= HELPLINELENGTH;
+        LineTo(HELPLINE4LFROMX, end);
+        end -= HELPLINESKIP;
+        MoveTo(HELPLINE4LFROMX, end);
+    }
+    
+    MoveTo(HELPLINE11RFROMX, HELPLINE11RFROMY);
+    for(cout = 0, end = HELPLINE11RFROMY; end < HELPLINE11RTOY; cout++) {
+        end += HELPLINELENGTH;
+        LineTo(HELPLINE11RFROMX, end);
+        end += HELPLINESKIP;
+        MoveTo(HELPLINE11RFROMX, end);
+    }
+    MoveTo(HELPLINE11LFROMX, HELPLINE11LFROMY);
+    for(cout = 0, end = HELPLINE11LFROMY; end < HELPLINE11LTOY; cout++) {
+        end += HELPLINELENGTH;
+        LineTo(HELPLINE11LFROMX, end);
+        end += HELPLINESKIP;
+        MoveTo(HELPLINE11LFROMX, end);
+    }
+
+    for(cout = 0, end = HELPLINE3STARTGRAD; end < HELPLINE3ENDGRAD; cout++) {
+        Arc(HELPLINE3PX, HELPLINE3PY, end, end + HELPLINELENGTH, LEERwIDTH + MYLANEWIDTH);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }
+    for(cout = 0, end = HELPLINE10STARTGRAD; end < HELPLINE10ENDGRAD; cout++) {
+        Arc(HELPLINE10PX, HELPLINE10PY, end, end + HELPLINELENGTH, LEERwIDTH + MYLANEWIDTH);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }
+}
+void MyDraw::myDrawHelpLine567(TColor color = HELPLINEWEISS) {
+    int  end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE5LFROMX, HELPLINE5LFROMY);
+    for(end = HELPLINE5LFROMY; end > HELPLINE5LTOY;) {
+        end -= HELPLINELENGTH;
+        LineTo(HELPLINE5LFROMX, end);
+        end -= HELPLINESKIP;
+        MoveTo(HELPLINE5LFROMX, end);
+    }
+      MoveTo(HELPLINE6LFROMX, HELPLINE6LFROMY);
+    for(end = HELPLINE6LFROMY; end > HELPLINE6LTOY;) {
+        end -= HELPLINELENGTH;
+        LineTo(HELPLINE6LFROMX, end);
+        end -= HELPLINESKIP;
+        MoveTo(HELPLINE6LFROMX, end);
+
+    }
+    for(end = HELPLINE56STARTGRAD; end < HELPLINE56ENDGRAD; ) {
+        Arc(HELPLINE56PX, HELPLINE56PY, end, end + HELPLINELENGTH, RAD6IN);
+        Arc(HELPLINE56PX, HELPLINE56PY, end, end + HELPLINELENGTH, RAD5IN);
+        Arc(HELPLINE56PX, HELPLINE56PY, end, end + HELPLINELENGTH, RAD5OUT);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }
+    for( end = HELPLINE7STARTGRAD; end < HELPLINE7ENDGRAD;) {
+        Arc(HELPLINE7PX, HELPLINE7PY, end, end + HELPLINELENGTH, LEERwIDTH + MYLANEWIDTH);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }
+}
+void MyDraw::myDrawHelpLine9(TColor color = HELPLINEWEISS) {
+    int end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE9OFROMX, HELPLINE9OFROMY);
+    for(end = HELPLINE9OFROMX; end < HELPLINE9OTOX; ) {
+        end += HELPLINELENGTH;
+        LineTo(end, HELPLINE9OFROMY);
+        end += HELPLINESKIP;
+        MoveTo(end, HELPLINE9OFROMY);
+    }
+     for(end = HELPLINE9STARTGRAD; end < HELPLINE9ENDGRAD; ) {
+        Arc(HELPLINE9PX, HELPLINE9PY, end, end + HELPLINELENGTH, RAD9IN);
+        Arc(HELPLINE9PX, HELPLINE9PY, end, end + HELPLINELENGTH, RAD9OUT);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    } 
+}
+void MyDraw::myDrawHelpLine01213(TColor color = HELPLINEWEISS) {
+    int end;
+    SetPen(color, HELPLINEWIDTH);
+    MoveTo(HELPLINE12LFROMX, HELPLINE12LFROMY);
+    for(end = HELPLINE12LFROMY; end < HELPLINE12LTOY;) {
+        end += HELPLINELENGTH;
+        LineTo(HELPLINE12LFROMX, end);
+        end += HELPLINESKIP;
+        MoveTo(HELPLINE12LFROMX, end);
+    }
+      MoveTo(HELPLINE13LFROMX, HELPLINE13LFROMY);
+    for(end = HELPLINE13LFROMY; end < HELPLINE13LTOY;) {
+        end += HELPLINELENGTH;
+        LineTo(HELPLINE13LFROMX, end);
+        end += HELPLINESKIP;
+        MoveTo(HELPLINE13LFROMX, end);
+    }
+    for(end = HELPLINE1213STARTGRAD; end < HELPLINE1213ENDGRAD; ) {
+        Arc(HELPLINE1213PX, HELPLINE1213PY, end, end + HELPLINELENGTH, RAD12IN);
+        Arc(HELPLINE1213PX, HELPLINE1213PY, end, end + HELPLINELENGTH, RAD13IN);
+        Arc(HELPLINE1213PX, HELPLINE1213PY, end, end + HELPLINELENGTH, RAD13OUT);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }  
+   
+    for(end = HELPLINE0STARTGRAD; end < HELPLINE0ENDGRAD; ) {
+        Arc(HELPLINE0PX, HELPLINE0PY, end, end + HELPLINELENGTH, LEERwIDTH + MYLANEWIDTH);
+        end = end + HELPLINELENGTH + HELPLINESKIP;
+    }  
+ 
 }

@@ -136,6 +136,7 @@ void TUser::Init(void) {
     myDraw.myDrawFP();
     myDraw.myDrawABLine();
     myDraw.myDrawLampeStop();
+    myDraw.myDrawHelpLine();
     createCall();
 }
 
@@ -149,6 +150,7 @@ void TUser::Run(void) {
     myDraw.myDrawZwisch(2, 1);
     myDraw.myDrawZwisch(4, 0);
     myDraw.myDrawFP();
+    myDraw.myDrawHelpLine();
     lampeLauf();
     createCall();
 
@@ -189,6 +191,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     SetBrush(ABFARBE);
         myDraw.myDrawABLine(LAMPERX, LAMPERGY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //1
         myDraw.myDrawABLine(LAMPELX, LAMPELGY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //8
+        myDraw.myDrawHelpLine18(HELPLINEGELB);
         break;
         case REGEL1:
     
@@ -210,6 +213,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
         Circle(LAMPERX, LAMPERLY, LAMPERADIO); //2
     SetBrush(ABFARBE);
         myDraw.myDrawABLine(LAMPERX, LAMPERLY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //2
+        myDraw.myDrawHelpLine2(HELPLINEGELB);
         break;
         case REGEL2:
             showVec(vfs3, 3, status);
@@ -236,6 +240,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
             myDraw.myDrawABLine(LAMPEURX, LAMPEUY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //3
             myDraw.myDrawABLine(LAMPEORX, LAMPEOY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //10
             myDraw.myDrawABLine(LAMPEOGX, LAMPEOY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //11
+        myDraw.myDrawHelpLine341011(HELPLINEGELB);
         break;
         case REGEL3:
             showVec(vfs5, 5, status);
@@ -258,6 +263,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     SetBrush(ABFARBE);
     myDraw.myDrawABLine(LAMPEULX, LAMPEUY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //5 6
     myDraw.myDrawABLine(LAMPELX, LAMPELRY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //7
+        myDraw.myDrawHelpLine567(HELPLINEGELB);
         break;
         case REGEL4:
             showVec(vfs9, 9, status);
@@ -278,6 +284,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
             Circle(LAMPELX, LAMPELLY, LAMPERADIO); //9
     SetBrush(ABFARBE);
      myDraw.myDrawABLine(LAMPELX, LAMPELLY, ROADRICHTUNG3456, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //9
+        myDraw.myDrawHelpLine9(HELPLINEGELB);
         break;
         case REGEL5:
     showVec(vfs1, 1, LAUFSTOP);
@@ -301,6 +308,7 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     SetBrush(ABFARBE);
     myDraw.myDrawABLine(LAMPERX, LAMPERRY, ROADRICHTUNG3456, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //0
     myDraw.myDrawABLine(LAMPEOLX, LAMPEOY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //12 1
+        myDraw.myDrawHelpLine01213(HELPLINEGELB);
         break;
     default:
     showVec(vfs0, 0, LAUFSTOP);

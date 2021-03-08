@@ -134,6 +134,7 @@ void TUser::Init(void) {
     myDraw.myDrawZwisch(2, 1);
     myDraw.myDrawZwisch(4, 0);
     myDraw.myDrawFP();
+    myDraw.myDrawABLine();
     myDraw.myDrawLampeStop();
     createCall();
 }
@@ -143,6 +144,7 @@ void TUser::Run(void) {
     myDraw.init();
     myDraw.myDrawRoad(5, retY, 1);
     myDraw.myDrawRoad(6, retX, 0);
+    myDraw.myDrawABLine();
     myDraw.myDrawKreuzungCover(retX, retY);
     myDraw.myDrawZwisch(2, 1);
     myDraw.myDrawZwisch(4, 0);
@@ -182,8 +184,11 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     showVec(vfs12, 12, LAUFSTOP);
     showVec(vfs13, 13, LAUFSTOP);
     SetBrush(color);
-            Circle(LAMPERX, LAMPERGY, LAMPERADIO); //1
-            Circle(LAMPELX, LAMPELGY, LAMPERADIO); //8
+        Circle(LAMPERX, LAMPERGY, LAMPERADIO); //1
+        Circle(LAMPELX, LAMPELGY, LAMPERADIO); //8
+    SetBrush(ABFARBE);
+        myDraw.myDrawABLine(LAMPERX, LAMPERGY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //1
+        myDraw.myDrawABLine(LAMPELX, LAMPELGY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //8
         break;
         case REGEL1:
     
@@ -202,7 +207,9 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     showVec(vfs12, 12, LAUFSTOP);
     showVec(vfs13, 13, LAUFSTOP);
     SetBrush(color);
-            Circle(LAMPERX, LAMPERLY, LAMPERADIO); //2
+        Circle(LAMPERX, LAMPERLY, LAMPERADIO); //2
+    SetBrush(ABFARBE);
+        myDraw.myDrawABLine(LAMPERX, LAMPERLY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //2
         break;
         case REGEL2:
             showVec(vfs3, 3, status);
@@ -224,6 +231,11 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
             Circle(LAMPEUGX, LAMPEUY, LAMPERADIO); //4
             Circle(LAMPEORX, LAMPEOY, LAMPERADIO); //10
             Circle(LAMPEOGX, LAMPEOY, LAMPERADIO); //11
+        SetBrush(ABFARBE);
+            myDraw.myDrawABLine(LAMPEUGX, LAMPEUY, ROADRICHTUNG3456, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //4
+            myDraw.myDrawABLine(LAMPEURX, LAMPEUY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //3
+            myDraw.myDrawABLine(LAMPEORX, LAMPEOY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //10
+            myDraw.myDrawABLine(LAMPEOGX, LAMPEOY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //11
         break;
         case REGEL3:
             showVec(vfs5, 5, status);
@@ -243,6 +255,9 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     SetBrush(color);
             Circle(LAMPEULX, LAMPEUY, LAMPERADIO); //5 6
             Circle(LAMPELX, LAMPELRY, LAMPERADIO); //7 
+    SetBrush(ABFARBE);
+    myDraw.myDrawABLine(LAMPEULX, LAMPEUY, ROADRICHTUNG012, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //5 6
+    myDraw.myDrawABLine(LAMPELX, LAMPELRY, ROADRICHTUNG0123, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //7
         break;
         case REGEL4:
             showVec(vfs9, 9, status);
@@ -261,6 +276,8 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     showVec(vfs13, 13, LAUFSTOP);
     SetBrush(color);
             Circle(LAMPELX, LAMPELLY, LAMPERADIO); //9
+    SetBrush(ABFARBE);
+     myDraw.myDrawABLine(LAMPELX, LAMPELLY, ROADRICHTUNG3456, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //9
         break;
         case REGEL5:
     showVec(vfs1, 1, LAUFSTOP);
@@ -281,6 +298,9 @@ void TUser::regelLauf(int regelNum, int callRunNum, int status) {
     SetBrush(color);
             Circle(LAMPERX, LAMPERRY, LAMPERADIO); //0
             Circle(LAMPEOLX, LAMPEOY, LAMPERADIO); //12 13
+    SetBrush(ABFARBE);
+    myDraw.myDrawABLine(LAMPERX, LAMPERRY, ROADRICHTUNG3456, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //0
+    myDraw.myDrawABLine(LAMPEOLX, LAMPEOY, ROADRICHTUNG789, RICHTUNGGERAD, LAMPELINELENGTH, LAMPELINEWIDTH, ABFARBE); //12 1
         break;
     default:
     showVec(vfs0, 0, LAUFSTOP);

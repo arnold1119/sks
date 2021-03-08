@@ -35,8 +35,10 @@
 #define MYDRAWFOY  (STARTY - LEERwIDTH)
 #define MYDRAWFUY  (ENDY + LEERwIDTH)
 
-#define LAMPERADIO  20
-#define ABSTAND     50
+#define LAMPERADIO      20
+#define LAMPELINEWIDTH  3
+#define LAMPELINELENGTH (2 * LAMPERADIO - 10)
+#define ABSTAND         50
 
 #define LAMPEOLX     (MYDRAWSTARTX - ABSTAND)
 #define LAMPEOGX     (MYDRAWSTARTX - 2 * ABSTAND)
@@ -60,6 +62,23 @@
 #define LAMPERRY    (MYDRAWSTARTY - 3 * ABSTAND)
 #define LAMPERX     (MYDRAWENDX+ ABSTAND)
 
+
+#define RICHTUNGGERAD   0
+#define RICHTUNGLEFT    1
+#define RICHTUNGRIGHT   2
+
+#define ROADRICHTUNG012     (2.0 * M_PI * 270 / 360)
+#define ROADRICHTUNG3456    (0.0)
+#define ROADRICHTUNG789     (2.0 * M_PI * 90 / 360)
+#define ROADRICHTUNG0123    (2.0 * M_PI * 180 / 360)    
+
+#define ABLENGHT        50
+#define ABLEER          50
+#define ABWIDTH         6 
+
+#define ABFARBE         Weiss
+
+
 #include "Plan.h"
 #include "MyFahrzeug.h"
 /*
@@ -82,12 +101,14 @@ public:
     void myDrawFP();
     void myDrawZwisch(int num, int iHorizontale);
     void myDrawLampeStop(); 
-
-   
+    void myDrawABLine(void);
+    void myDrawABLine(int x, int y, double roadRichtung, int biegRichtung, int length, int width, TColor color);
+    
 private:
     int iHLans, iWLans;
     int startX, endX, startY, endY;
-
+    int calcRichtungPositionX(int PositionX, int PositonY, int centerX, int centerY, double richtung);
+    int calcRichtungPositionY(int PositionX, int PositionY, int centerX, int centerY, double richtung);
 };
 
 #endif

@@ -133,8 +133,7 @@ void MyFahrzeug::setSpeed(double speed) {
         this->autoSpeed = speed;
     }
 }
-// void MyFahrzeug::setSpeed(double speed, int roadNum, int stopPosition) {
-// }
+
 
 void MyFahrzeug::setMaxSpeed(MyFahrzeug& fs) {
     double dis = (fs.getPositionX() - this->autoPositionX) * (fs.getPositionX() - this->autoPositionX)

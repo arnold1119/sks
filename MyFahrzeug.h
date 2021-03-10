@@ -41,6 +41,9 @@
 #define LEFT        (2.0 * M_PI * 270 / 360)
 #define RIGHT       (2.0 * M_PI * 90 / 360)
 
+#define STATUSADD     1
+#define STATUSNOADD   0
+
 class MyFahrzeug{
 
 public:
@@ -53,6 +56,8 @@ public:
     int  getAutoWidth(void);
     void setAutoHeight(int);
     int  getAutoHeight(void);
+    void setAutoStatus(int);
+    int  getAutoStatus(void);
     int setRoadNum(void);
     int getRoadNum(void);
     void setSpeed(double speed);
@@ -73,6 +78,7 @@ private:
     double w, h;
     int autoW, autoH;
     double autoPositionX, autoPositionY;
+    int status;
     int roadNum;
     //0 fur ^  90 fur > 180 fur unter 270 fur <
     double autoRichtung, autoSpeed;

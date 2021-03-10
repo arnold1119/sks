@@ -68,6 +68,7 @@ MyFahrzeug:: MyFahrzeug(const MyFahrzeug& fs){
     this->R12BEND  = fs.R12BEND;
     this->R13BSTART = fs.R13BSTART;
     this->R13BEND  = fs.R13BEND;
+    this->status = fs.status;
 }
 MyFahrzeug& MyFahrzeug::operator=(const MyFahrzeug& fs) {
     if(this == &fs)
@@ -103,7 +104,15 @@ MyFahrzeug& MyFahrzeug::operator=(const MyFahrzeug& fs) {
     this->R12BEND  = fs.R12BEND;
     this->R13BSTART = fs.R13BSTART;
     this->R13BEND  = fs.R13BEND;
+    this->status = fs.status;
     return *this;
+}
+void MyFahrzeug::setAutoStatus(int status) {
+    this->status = status;
+}
+
+int MyFahrzeug::getAutoStatus(void) {
+    return this->status;
 }
 
 void MyFahrzeug::setAutoWidth(int width) {
@@ -123,17 +132,23 @@ int MyFahrzeug::getAutoHeight(void) {
 }
 
 void MyFahrzeug::setSpeed(double speed) {
-    
+    int tmp;
     if(speed >= MAXSPEED) {
-        this->autoSpeed = MAXSPEED;
+        tmp = random((int)speed + 5) * 0.1243 + random((int)speed) + 2.5;
+        if(tmp < MAXSPEED)
+            this->autoSpeed = tmp;
+        else
+            this->autoSpeed = MAXSPEED;
     } else {
+        tmp = random((int)speed + 5) * 0.1243 + random((int)speed) + 1.0;
+        if(tmp < speed)
+            speed = tmp;
         this->autoSpeed = speed;
     }
     if(speed == MAXSPEED + 2.5) {
-        this->autoSpeed = speed;
+        this->autoSpeed = MAXSPEED;
     }
 }
-
 
 void MyFahrzeug::setMaxSpeed(MyFahrzeug& fs) {
     double dis = (fs.getPositionX() - this->autoPositionX) * (fs.getPositionX() - this->autoPositionX)
@@ -302,6 +317,7 @@ MyFahrzeug& MyFahrzeug::createAuto(int& roadNum, int width = AUTOW, int height =
     this->setRoadNum();
     this->setPositon();
     roadNum = this->getRoadNum(); 
+    this->status = STATUSNOADD;
    return *this; 
 }
 
